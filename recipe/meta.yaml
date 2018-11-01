@@ -22,6 +22,8 @@ requirements:
     - make
   host:
     - flex
+  run:
+    - flex
 
 test:
   commands:
