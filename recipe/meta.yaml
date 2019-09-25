@@ -1,37 +1,37 @@
-{% set pkgname = "bc" %}
-{% set version = "1.06" %}
+{% set name = "bc" %}
+{% set version = "1.07.1" %}
 
 package:
-  name: {{ pkgname }}
-  version: {{ version }}
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
 
 source:
-  fn: {{ pkgname }}-{{ version }}.tar.gz
-  url: http://ftpmirror.gnu.org/{{ pkgname }}/{{ pkgname }}-{{ version }}.tar.gz
-  sha256: 4ef6d9f17c3c0d92d8798e35666175ecd3d8efac4009d6457b5c99cea72c0e33
+  url: http://ftpmirror.gnu.org/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 62adfca89b0a1c0164c2cdca59ca210c1d44c3ffc46daf9931cf4942664cb02a
   patches:
     - verify_checklib_results.sh.patch
 
 build:
-  number: 1001
-  skip: True  # [win]
+  number: 0
+  skip: true  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - bison
     - make
+    - texinfo
   host:
-    - flex
-  run:
     - flex
 
 test:
   commands:
-    - bc --version
+    - echo '1 > 2' | bc -l
 
 about:
-  home: https://www.gnu.org/software/bc/
-  license: GPLv3
+  home: "https://www.gnu.org/software/bc/"
+  doc_url: "https://www.gnu.org/software/bc/manual/bc.html"
+  license: GPL-3.0-or-later
   license_family: GPL
   license_file: COPYING
   summary: bc is an arbitrary precision numeric processing language.
