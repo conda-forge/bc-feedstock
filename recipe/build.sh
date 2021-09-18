@@ -3,14 +3,20 @@
 set -ex
 
 # configure
-./configure \
-	--prefix=${PREFIX}
+aclocal
+automake
+declare -a configure_args
+configure_args+=("--prefix=${PREFIX}")
+configure_args+=("CC_FOR_BUILD=${CC_FOR_BUILD:-${CC}}")
+./configure "${configure_args[@]}"
 
 # build
-make -j ${CPU_COUNT}
+make "-j${CPU_COUNT}"
 
 # check
-bash ./verify_checklib_results.sh
+if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
+    bash ./verify_checklib_results.sh
+fi
 
 # install
 make install
